@@ -1,7 +1,13 @@
-public class Frame { 
-    byte[] data; 
-    Frame(byte[] d)
-    { 
-        this.data=d; 
-    } 
+public class Frame implements IFrame {
+    private final byte[] data;
+
+    public Frame(byte[] d) {
+        if (d == null) throw new IllegalArgumentException("data cannot be null");
+        this.data = d.clone();
+    }
+
+    @Override
+    public int size() {
+        return data.length;
+    }
 }

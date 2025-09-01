@@ -6,24 +6,36 @@ import java.nio.file.Path;
 import java.util.Properties;
 
 /**
- * FAULTY "Singleton": public constructor, getInstance() returns a NEW instance each time,
- * not thread-safe, reload allowed anytime, mutable global state, reflection+serialization-friendly.
+ * A correct, thread-safe, and immutable Singleton for application settings.
  */
-public class AppSettings implements Serializable {
+public final class AppSettings implements Serializable {
     private final Properties props = new Properties();
 
-    public AppSettings() { } // should not be public for true singleton
+    private static volatile AppSettings instance;
 
-    public static AppSettings getInstance() {
-        return new AppSettings(); // returns a fresh instance (bug)
-    }
-
-    public void loadFromFile(Path file) {
+    private AppSettings(Path file) {
         try (InputStream in = Files.newInputStream(file)) {
             props.load(in);
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
+    }
+
+    public static void initialize(Path configFilePath) {
+        if (instance == null) {
+            synchronized (AppSettings.class) {
+                if (instance == null) {
+                    instance = new AppSettings(configFilePath);
+                }
+            }
+        }
+    }
+
+    public static AppSettings getInstance() {
+        if (instance == null) {
+            throw new IllegalStateException("AppSettings has not been initialized. Call initialize() first.");
+        }
+        return instance;
     }
 
     public String get(String key) {

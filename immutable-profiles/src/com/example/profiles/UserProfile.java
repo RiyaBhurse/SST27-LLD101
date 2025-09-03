@@ -27,6 +27,7 @@ public final class UserProfile {
     }
 
     // Getters for all fields
+    // They are supposed to return the copy of the objects
     public String getId() { return id; }
     public String getEmail() { return email; }
     public String getPhone() { return phone; }
@@ -45,6 +46,7 @@ public final class UserProfile {
         private final String email;
 
         // Optional parameters
+    
         private String phone;
         private String displayName;
         private String address;
@@ -90,8 +92,6 @@ public final class UserProfile {
 
         // The build method centralizes validation and returns the immutable object
         public UserProfile build() {
-            Validation.requireNonBlank(this.id, "id");
-            Validation.requireEmail(this.email);
             return new UserProfile(this);
         }
     }

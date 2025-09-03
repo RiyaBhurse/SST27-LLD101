@@ -14,9 +14,7 @@ public class ProfileService {
 
     public UserProfile createWithPhone(String id, String email, String phone) {
         // A more complex example using the builder's fluent interface
-        return new UserProfile.Builder(id, email)
-            .withPhone(phone)
-            .build();
+        return new UserProfile.Builder(id, email).withPhone(phone).build();
     }
 
     // This method is now invalid because UserProfile is immutable.

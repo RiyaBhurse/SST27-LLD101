@@ -1,17 +1,22 @@
-public class DEmployeeCSV {
-    EmployeeCSV e = new EmployeeCSV();
+package exercise;
+
+public class DEmployeeCSV implements Employee {
+    EmployeeCSV e;
+    public DEmployeeCSV(EmployeeCSV e) {
+        this.e = e;
+    }
     String[] tokens = e.tokens();
     // new EmployeeCSV("101,John,Doe,john.doe@acme.com")
-    String getId() {
+    public String getId() {
         return tokens[0];
     }
-    String getFirstName() {
+    public String getFirstName() {
         return tokens[1];
     }
-    String getLastName() {
+    public String getLastName() {
         return tokens[2];
     }
-    String getEmail() {
+    public String getEmail() {
         return tokens[3];
     }
 
